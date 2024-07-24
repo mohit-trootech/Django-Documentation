@@ -1,0 +1,161 @@
+/* * {
+    transition: all 600ms ease;
+} */
+
+/* Sticky Sidebar */
+
+#sidebar {
+  position: sticky;
+  top: 0;
+}
+
+/* Preload CSS */
+.preloader {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background-color: #f0f0f075;
+}
+
+.loader {
+  opacity: 100%;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.loader div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #c517f0;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loader div:nth-child(1) {
+  left: 8px;
+  animation: flip1 0.6s infinite;
+}
+
+.loader div:nth-child(2) {
+  left: 8px;
+  animation: flip2 0.6s infinite;
+}
+
+.loader div:nth-child(3) {
+  left: 32px;
+  animation: flip2 0.6s infinite;
+}
+
+.loader div:nth-child(4) {
+  left: 56px;
+  animation: flip3 0.6s infinite;
+}
+
+@keyframes flip1 {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes flip3 {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes flip2 {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    font-size: 10px;
+    position: relative;
+    display: inline-block;
+    width: 3.5em;
+    height: 2em;
+    transform: translate(0%, -20%);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(75, 73, 74);
+    transition: 0.5s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 20px;
+    left: 0.3em;
+    bottom: 0.3em;
+    background-color: black;
+    box-shadow: inset 8px -4px 0 0 white;
+    transition: 0.4s;
+}
+
+.switch input:checked+.slider {
+    background-color: #ff5c05;
+}
+
+.switch input:checked+.slider:before {
+    transform: translateX(1.5em);
+    background-color: yellow;
+    box-shadow: none;
+}
+
+/* Progress value Change Transition */
+
+progress {
+    margin-bottom: 10px;
+    height: 30px;
+    width: 100%;
+    overflow: hidden;
+    background: #e5e5e5;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: transparent;
+}
+
+progress[value]::-webkit-progress-value {
+    background: linear-gradient(to right, #f47c34, #e03f97);
+    transition: 1s cubic-bezier(0.6, 0, 0.38, 1);
+}

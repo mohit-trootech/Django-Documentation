@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Choices</th>
+            <th scope="col">Result</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th colspan="3" class="text-center fs-3">{{question.title}}</th>
+        </tr>
+        {% for choice in question.choice.all %}
+        <tr>
+            <th>{{forloop.counter}}</th>
+            <td>{{choice.title}}</td>
+            <td>{{choice.votes}} Votes</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a type="button" href="/polls" class="btn btn-primary">Go Back To Home</a>
+<a type="button" href="{% url 'details' question.id %}" class="btn btn-primary">Poll Again For Same Question</a>
+
+{% endblock %}

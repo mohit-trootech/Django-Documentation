@@ -1,0 +1,41 @@
+{% load static %}
+{% block error_block %}
+{% if form.errors %}
+<div id="error_block">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer">
+        <div id="liveToast" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true"
+            data-autohide="true">
+            <div class="toast-header">
+                <img src="{% static 'images/polls.png' %}" class="rounded me-2" alt="polls_error" width="32"
+                    height="32">
+                <strong class="me-auto">Polls Error</strong>
+                <small>Recently</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {% for field in form %}
+                {% for error in field.errors %}
+                <strong>{{ error|escape }}</strong>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <strong>{{ error|escape }}</strong>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+{% block error_script_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toast = document.getElementById("toastContainer");
+        setTimeout(() => {
+            if (toast) {
+                toast.style.display = "none";
+            };
+        }, 3000);
+    });
+</script>
+{% endblock %}

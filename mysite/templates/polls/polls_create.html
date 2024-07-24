@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center h-100 w-100">
+    <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3 text-capitalize">
+            <label for="{{field.id_for_label }}" class="form-label">{{field.label}}</label>
+            {{field}}
+            <div
+                class="{% if field.field.widget.input_type == 'file' %} valid-feedback {% else %} invalid-feedback {% endif %}">
+                {{field.help_text}}
+            </div>
+        </div>
+        {% endfor %}
+        <div id="choicesInput" class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="choiceText">New Choice</label>
+                <input type="text" class="form-control" id="choiceText" name="choices"
+                    placeholder="Please Enter Choice Text" required>
+                <div class="invalid-feedback">
+                    Please Enter Choice Text
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="choiceText">New Choice</label>
+                <input type="text" class="form-control" id="choiceText" name="choices"
+                    placeholder="Please Enter Choice Text" required>
+                <div class="invalid-feedback">
+                    Please Enter Choice Text
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-success" id="choiceAdd" type="button" role="button">Add Choice</button>
+            <button class="btn btn-primary" type="submit" role="button">Submit form</button>
+        </div>
+    </form>
+</div>
+<!-- Form End -->
+{% endblock %}

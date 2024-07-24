@@ -1,0 +1,114 @@
+<h1>autoEscape</h1>
+{% autoescape on %}
+{{titleTest}}
+{% endautoescape %}
+<hr>
+<h1>Comment</h1>
+{% comment "Optional note" %}
+<p>Commented out text with {{ create_date|date:"c" }}</p>
+{% endcomment %}
+<hr>
+<h1>cycle</h1>
+<ol>
+    {% for o in some_list %}
+    <li class="{% cycle 'row1' 'row2' as rowcolors %}">
+        {{o}}
+    </li>
+    {% endfor %}
+</ol>
+<hr>
+<h1>Filter</h1>
+{% filter upper %}
+This text will be HTML-escaped, and will appear in all lowercase.
+{% endfilter %}
+<hr>
+<h1>firstof</h1>
+{% firstof var1 var2 var3 %}
+<hr>
+<h1>For Loop Filter</h1>
+{% for x, y in points %}
+There is a point at {{ x }},{{ y }}
+{% endfor %}
+<hr>
+<h1>if changed</h1>
+<ol>
+    {% for d in date %}
+    {% ifchanged %}<h3>{{ create_date|date:"F" }}</h3>{% endifchanged %}
+    {{d}}
+    {% endfor %}
+</ol>
+<hr>
+<h1>lorem</h1>
+<p>{% lorem '1' p random %}</p>
+<hr>
+<h1>Now</h1>
+It is {% now "jS F Y H:i" %}
+<hr>
+<h1>Regroup</h1>
+
+{% regroup cities by country as country_list %}
+<ul>
+    {% for country in country_list %}
+    <li>{{ country.grouper }}
+        <ul>
+            {% for city in country.list %}
+            <li>{{ city.name }}: {{ city.population }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+<hr>
+<h1>dictsort</h1>
+{% regroup cities|dictsort:"country" by country as country_list %}
+<ul>
+    {% for country in country_list %}
+    <li>{{ country.grouper }}
+        <ul>
+            {% for city in country.list %}
+            <li>{{ city.name }}: {{ city.population }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+<hr>
+<h1>resetcycle</h1>
+{% for city in cities %}
+<p class="{% cycle 'odd' 'even' %}">{{ city }}</p>
+{% endfor %}
+<hr>
+<h1>spaceless</h1>
+{% spaceless %}
+<p>
+    <a href="foo/">Foo</a>
+</p>
+{% endspaceless %}
+{% spaceless %}
+<strong>
+    Hello
+</strong>
+{% endspaceless %}
+<hr>
+<h1>Add</h1>
+{{ 4|add:2}}
+<hr>
+<h1>center</h1>
+"{{ "Hello"|center:"100" }}"
+<hr>
+<h1>default</h1>
+{{ False|default:"nothing" }}
+<hr>
+<h1>Time Since</h1>
+{% with timeperiod=mybirthdate|timesince %}
+{% if timeperiod|slice:":1" == '0' %}
+now
+{% else %}
+{{ timeperiod }}
+{% endif %}
+{% endwith %}
+<hr>
+<h1>
+    timeuntil
+</h1>
+{{ untill|timeuntil }}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+{% include 'stock/error_message.html' %}
+{% block error_block %}{% endblock %}
+<!-- Sign Up Start -->
+<div class="px-4 px-md-5 text-center text-lg-start h-100 d-flex align-items-center mt-3">
+    <div class="row gx-lg-5 align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+            <h1 class="my-5 display-3 fw-bold ls-tight">
+                Sign Up <br />
+                <span class="text-primary">Access QuickPolls Now</span>
+            </h1>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="card">
+                <div class="card-body py-5">
+                    <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{field.id_for_label}}" class="form-label">{{field.label}}</label>
+                            {{field}}
+                            <div class="invalid-feedback">
+                                {{field.help_text}}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-12">
+                            <button class="btn btn-primary col-12" type="submit" role="button">
+                                Sign up
+                            </button>
+                        </div>
+                    </form>
+
+                    <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="{% url 'login' %}"
+                            class="link-danger">Login</a></p>
+                    <hr>
+                    <!-- Register buttons -->
+                    <div class="text-center">
+                        <p>or sign up with:</p>
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google"></i>
+                        </button>
+
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-github"></i>
+                        </button>
+                    </div>
+                    <!-- Register buttons End    -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sign Up End -->
+{% endblock %}
