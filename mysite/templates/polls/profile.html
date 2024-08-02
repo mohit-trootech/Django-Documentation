@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Profile{% endblock %}
 
 {% block content %}
@@ -22,7 +23,8 @@
                         data-bs-toggle="modal" data-bs-target="#profileEditModal">Edit Profile</button>
                     <a href="{% url 'logout' %}" data-mdb-button-init data-mdb-ripple-init
                         class="btn btn-outline-primary ms-1">Log
-                        Out</a>
+                        Out
+                    </a>
                 </div>
             </div>
         </div>
@@ -127,4 +129,9 @@
     </div>
 </div>
 <!-- Edit Profile Modal End -->
+{% endblock %}
+
+
+{% block profile_js %}
+<script src="{% static 'js/location.js' %}"></script>
 {% endblock %}

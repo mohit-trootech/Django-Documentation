@@ -1,0 +1,57 @@
+{% load static %}
+{% block polls_filter %}
+<div class="container">
+    <div class="row">
+        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#pollsFilter"
+            aria-expanded="false" aria-controls="pollsFilter">
+            <span class="fa fa-cog"></span> Advance Polls Filter
+        </button>
+        <div class="collapse my-3" id="pollsFilter">
+            <div class="card card-body">
+                <form class="form-inline" role="form" method="get" id="pollsFilterForm">
+                    <div class="form-group mb-3">
+                        <label class="form-label" style="margin-right:0;" for="polls-perpage">Rows per page:</label>
+                        <select id="polls-perpage" class="form-control">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option selected="selected" value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" style="margin-right:0;" for="polls-orderby">Order by:</label>
+                        <select id="polls-orderby" class="form-control">
+                            <option value="-created">Newest First</option>
+                            <option value="created">Oldest First</option>
+                            <option value="?">Random Polls</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" style="margin-right:0;" for="polls-tag">Select Tag:</label>
+                        <select id="polls-tag" class="form-control text-capitalize">
+                            <option class="" value="">None</option>
+                            {% for tag in tags %}
+                            <option class="" value="{{tag}}">{{tag}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="filterFormBtn"
+                        onclick="submitFilterPollsForm(event)">Filter Data</button>
+                    <button type="reset" class="btn btn-primary" id="filterFormBtnReset">Reset
+                        Data</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block polls_filter_js %}
+{% endblock %}

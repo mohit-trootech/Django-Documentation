@@ -4,9 +4,11 @@
 
 {% block title %}QuickPolls{% endblock %}
 {% block content %}
+{% include 'stock/polls_filter.html' %}
+{% block polls_filter %}{% endblock %}
 {% if questions %}
 {% for question in questions %}
-<div class="card">
+<div class="card my-3">
     {% if question.question_image %}
     <img src="{{question.question_image.url}}" class="card-img-top" alt="question">
     {% endif %}
@@ -34,7 +36,7 @@
 {% include "stock/pagination.html" %}
 {% block pagination %}{% endblock %}
 {% else %}
-<div class="alert alert-danger" role="alert">
+<div class="alert alert-danger my-4" role="alert">
     Sorry No Polls Available &smile;
 </div>
 {% endif %}

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.db.models import F
+from django.db.models import F, Q
 from django.utils import timezone
 from django.views.generic import *
-from polls.models import Question, Choice
+from polls.models import Question, Choice, Tag
 from django.http import HttpResponse, JsonResponse
 from polls.utils import update_vote_data_choice_id
+from typing import Any
 import json
 from polls.forms import CreatePoll
 from polls.constants import (
@@ -32,14 +33,31 @@ from polls.constants import (
 
 class IndexView(ListView):
     template_name = HOME_TEMPLATE
-    context_object_name = QUESTION_CONTEXT
     paginate_by = 10
+    context_object_name = QUESTION_CONTEXT
 
     def get_queryset(self):
         """
         Return the Published Question data Order by Date Newest First
         """
+        if self.request.GET:
+            pagination = self.request.GET["pagniation"]
+            orderby = self.request.GET["orderby"]
+            tag = self.request.GET["tag"]
+            if tag == "":
+                return Question.objects.filter(created__lte=timezone.now()).order_by(
+                    orderby
+                )
+            return Question.objects.filter(
+                Q(created__lte=timezone.now()) & Q(question_tag__title=tag)
+            )
+
         return Question.objects.filter(created__lte=timezone.now()).order_by("-created")
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["tags"] = Tag.objects.all()
+        return context
 
 
 def vote(request) -> JsonResponse:

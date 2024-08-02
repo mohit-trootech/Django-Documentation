@@ -31,7 +31,7 @@ class Question(TitleDescriptionModel, TimeStampedModel):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="question",
+        related_name="tag",
     )
 
     def __str__(self):
