@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from polls.models import Question, Choice, Tag
-from mysite.constants import (
+from polls.constants import (
     VOTE_RESET,
     CHOICE_TOTAL_VOTES_RESET_DESCRIPTION,
     QUESTION_TOTAL_VOTES_RESET_DESCRIPTION,
@@ -53,8 +53,8 @@ class QuestionAdmin(admin.ModelAdmin):
                     "title",
                     "description",
                     "total_votes",
-                    "question_tag",
-                    "question_image",
+                    "tag",
+                    "image",
                 ],
             },
         ),

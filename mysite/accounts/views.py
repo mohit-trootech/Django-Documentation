@@ -5,12 +5,20 @@ from accounts.forms import UserLoginForm, UserCreationForm, UserUpdateForm
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from .models import User
+from accounts.constants import (
+    LOGIN_ERROR,
+    LOGIN_TEMPLATE,
+    HOME_URL,
+    SIGNUP_TEMPLATE,
+    LOGIN_URL,
+    PROFILE_TEMPLATE,
+)
 
 
 class LoginView(FormView):
-    template_name = "accounts/login.html"
+    template_name = LOGIN_TEMPLATE
     form_class = UserLoginForm
-    success_url = "/polls"
+    success_url = HOME_URL
 
     def form_valid(self, form):
         user = authenticate(
@@ -18,16 +26,16 @@ class LoginView(FormView):
             password=form.cleaned_data["password"],
         )
         if not user:
-            form.add_error(None, "Incorrect username or password.")
+            form.add_error(None, LOGIN_ERROR)
             return super().form_invalid(form)
         login(self.request, user)
         return super().form_valid(form)
 
 
 class SignupView(FormView):
-    template_name = "accounts/signup.html"
+    template_name = SIGNUP_TEMPLATE
     form_class = UserCreationForm
-    success_url = "/accounts/login"
+    success_url = LOGIN_URL
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -38,7 +46,7 @@ class SignupView(FormView):
 
 class ProfileView(UpdateView):
     model = User
-    template_name = "polls/profile.html"
+    template_name = PROFILE_TEMPLATE
     form_class = UserUpdateForm
 
     def get_success_url(self):
@@ -49,4 +57,4 @@ class LogoutView(View):
 
     def get(self, request):
         logout(request)
-        return redirect("/polls/")
+        return redirect(HOME_URL)

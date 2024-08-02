@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from accounts.models import User
 from django.contrib import admin
-from mysite.constants import (
+from accounts.constants import (
     STATUS_INACTIVE_BOOL,
     STATUS_ACTIVE_BOOL,
     USER_ADMIN_STATUS_UNACTIVE_DESCRIPTION,

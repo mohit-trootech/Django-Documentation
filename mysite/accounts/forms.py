@@ -10,6 +10,22 @@ from django.forms import (
     ClearableFileInput,
 )
 from accounts.models import User
+from accounts.constants import (
+    SIGNUP_FIRST_NAME_LABEL,
+    SIGNUP_LAST_NAME_LABEL,
+    SIGNUP_USERNAME_LABEL,
+    SIGNUP_EMAIL_LABEL,
+    SIGNUP_PASSWORD_LABEL,
+    SIGNUP_FIRST_NAME_HELP_TEXT,
+    SIGNUP_LAST_NAME_HELP_TEXT,
+    SIGNUP_USERNAME_HELP_TEXT,
+    SIGNUP_EMAIL_HELP_TEXT,
+    SIGNUP_PASSWORD_HELP_TEXT,
+    LOGIN_USERNAME_LABEL,
+    LOGIN_PASSWORD_LABEL,
+    LOGIN_USERNAME_HELP_TEXT,
+    LOGIN_PASSWORD_HELP_TEXT,
+)
 
 
 class UserCreationForm(ModelForm):
@@ -26,18 +42,18 @@ class UserCreationForm(ModelForm):
                 input_option = TextInput
             widgets[field] = input_option(attrs={"class": "form-control"})
         labels = {
-            "first_name": "Enter First Name",
-            "last_name": "Enter Last Name",
-            "username": "Enter Username",
-            "email": "Enter Email",
-            "password": "Enter Password",
+            "first_name": SIGNUP_FIRST_NAME_LABEL,
+            "last_name": SIGNUP_LAST_NAME_LABEL,
+            "username": SIGNUP_USERNAME_LABEL,
+            "email": SIGNUP_EMAIL_LABEL,
+            "password": SIGNUP_PASSWORD_LABEL,
         }
         help_texts = {
-            "first_name": "Please Enter First Name",
-            "last_name": "Please Enter Last Name",
-            "username": "Please Enter Username",
-            "email": "Please Enter Email",
-            "password": "Please Choose Password",
+            "first_name": SIGNUP_FIRST_NAME_HELP_TEXT,
+            "last_name": SIGNUP_LAST_NAME_HELP_TEXT,
+            "username": SIGNUP_USERNAME_HELP_TEXT,
+            "email": SIGNUP_EMAIL_HELP_TEXT,
+            "password": SIGNUP_PASSWORD_HELP_TEXT,
         }
 
 
@@ -48,16 +64,16 @@ class UserLoginForm(Form):
         widget=TextInput(
             attrs={"class": "form-control", "placeholder": "Enter Login Username"}
         ),
-        label="Enter Username",
-        help_text="Username Required",
+        label=LOGIN_USERNAME_LABEL,
+        help_text=LOGIN_USERNAME_HELP_TEXT,
     )
     password = CharField(
         required=True,
         widget=PasswordInput(
             attrs={"class": "form-control", "placeholder": "Enter Login Password"}
         ),
-        label="Enter Password",
-        help_text="Password Required",
+        label=LOGIN_PASSWORD_LABEL,
+        help_text=LOGIN_PASSWORD_HELP_TEXT,
     )
 
 

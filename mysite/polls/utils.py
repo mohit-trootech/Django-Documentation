@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from polls.models import Choice, Question, Tag
+from django.db.models.query import QuerySet
+from typing import Dict, Any, Pattern
 from django.db.models import F
 import re
 
@@ -20,16 +22,18 @@ def update_vote_data_choice_id(data: dict):
     return serialize_data_set_for_ajax_update(data["questionId"])
 
 
-def serialize_data_set_for_ajax_update(id):
+def serialize_data_set_for_ajax_update(id: int) -> Dict[str, Any]:
     """
     Create Updated dataset Based on Question Queryset
 
-    :param id
+    :param id: The ID of the Question to serialize.
+    :return: A dictionary containing the updated data.
     """
     choice_data = {}
     question = Question.objects.get(id=id)
-    for i in question.choice.all():
-        choice_data[i.id] = {"title": i.title, "votes": i.votes}
+    for choice in question.choice.all():
+        choice_data[choice.id] = {"title": choice.title, "votes": choice.votes}
+
     updated_data = {
         "question_total_votes": question.total_votes,
         "choices_data": choice_data,
@@ -37,30 +41,38 @@ def serialize_data_set_for_ajax_update(id):
     return updated_data
 
 
-def find_pattern(patt, text):
-    m = re.search(patt, text)
-    if m:
-        return True
-    else:
-        return False
+def find_pattern(patt: Pattern, text: str) -> bool:
+    """
+    Check if a pattern matches any part of the text.
+
+    :param patt: The regular expression pattern to search for.
+    :param text: The text to search within.
+    :return: True if the pattern is found, False otherwise.
+    """
+    return bool(re.search(patt, text))
 
 
 def validate(password: str) -> bool:
     """
-    Password Validation
+    Validate the given password based on specific criteria.
 
-    :param password: str
-    :return: bool
+    :param password: String of password received from form.
+    :return: Boolean indicating if the password is valid.
     """
     if 6 < len(password) < 13:
-        if (
+        return (
             find_pattern(r"[A-Z]", password)
             and find_pattern(r"[a-z]", password)
             and find_pattern(r"\d", password)
-            and find_pattern(r"[$#A]", password)
-        ):
-            return True
-        else:
-            return False
-    else:
-        return False
+            and find_pattern(r"[$#@!%^&*]", password)
+        )
+    return False
+
+
+def get_tag_data() -> QuerySet[Tag]:
+    """
+    Get all Tag Data
+
+    :return: QuerySet of Tag object
+    """
+    return Tag.objects.all()
