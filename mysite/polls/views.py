@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.db.models import F, Q
 from django.utils import timezone
 from django.views.generic import *
 from polls.models import Question, Choice, Tag
 from django.http import HttpResponse, JsonResponse
-from polls.utils import update_vote_data_choice_id
+from polls.utils import (
+    update_vote_data_choice_id,
+)
 from typing import Any
 import json
 from polls.forms import CreatePoll
@@ -32,27 +33,29 @@ from polls.constants import (
 
 
 class IndexView(ListView):
+    model = Question
+    context_object_name = QUESTION_CONTEXT
     template_name = HOME_TEMPLATE
     paginate_by = 10
-    context_object_name = QUESTION_CONTEXT
 
     def get_queryset(self):
         """
-        Return the Published Question data Order by Date Newest First
-        """
-        if self.request.GET:
-            pagination = self.request.GET["pagniation"]
-            orderby = self.request.GET["orderby"]
-            tag = self.request.GET["tag"]
-            if tag == "":
-                return Question.objects.filter(created__lte=timezone.now()).order_by(
-                    orderby
-                )
-            return Question.objects.filter(
-                Q(created__lte=timezone.now()) & Q(question_tag__title=tag)
-            )
+        return the filterd queryset
 
-        return Question.objects.filter(created__lte=timezone.now()).order_by("-created")
+        :return:
+        """
+        order_by = self.request.GET.get("orderby", "-created")
+        tag = self.request.GET.get("tag", "")
+        queryset = Question.objects.filter(created__lte=timezone.now())
+        if tag:
+            queryset = queryset.filter(question_tag__title__icontains=tag)
+        return queryset.order_by(order_by)
+
+    def get_template_names(self):
+        if self.request.htmx:
+            return "polls/polls_list.html"
+        else:
+            return self.template_name
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -65,7 +68,7 @@ def vote(request) -> JsonResponse:
     handles the ajax request to update model and send serialize data for javascript in json format
 
     :param request: question_id
-    :return: str
+    :return: JsonResponse
     """
     data = json.loads(request.POST["data"])
     updated_data = update_vote_data_choice_id(data)

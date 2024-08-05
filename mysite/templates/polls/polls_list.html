@@ -1,0 +1,65 @@
+{% load shuffle %}
+{% block polls_list %}
+
+{% for question in questions %}
+{% if forloop.last %}
+<div class="card my-3" hx-trigger="revealed" hx-get="{% url 'index' %}?page={{ page_obj.number|add:1 }}"
+    hx-swap="afterend">
+    {% else %}
+    <div class="card my-3">
+        {% endif %}
+        {% if question.question_image %}
+        <img src="{{ question.question_image.url }}" class="card-img-top" alt="question">
+        {% endif %}
+
+        <div class="card-body">
+            <h5 class="card-title fs-3">{{ question.title }}</h5>
+            {% if question.description %}
+            <p class="card-text">{{ question.description }}</p>
+            {% endif %}
+        </div>
+
+        <form class="list-group list-group-flush mx-3" id="polls">
+            <div class="row">
+                {% for choice in question.choice.all|shuffle %}
+                <div class="mb-3 col-md-6">
+                    <label for="{{ choice.id }}" class="form-label fs-5 lead">{{ choice.title }}</label>
+                    <progress value="0" class="choices_progress_pending" max="{{ question.total_votes }}"
+                        onclick="choiceClick(event, '{{ question.id }}', '{{ choice.id }}')" aria-disabled="true"
+                        id="{{ choice.id }}"></progress>
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+    {% endblock %}
+    {% block ajax-scripts %}
+    <script>
+        function choiceClick(event, questionId, choiceId) {
+            event.preventDefault();
+            let data = { "questionId": questionId, "choiceId": choiceId };
+
+            // AJAX request
+            $.ajax({
+                url: `{% url 'vote' %}`,
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'data': JSON.stringify(data)
+
+                },
+                success: function (response) {
+                    for (choice in response.choices_data) {
+                        elem = document.getElementById(`${choice}`)
+                        elem.setAttribute("value", response.choices_data[choice]["votes"]);
+                        elem.setAttribute("max", response.question_total_votes);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', status, error);
+                }
+            });
+        }
+    </script>
+    {% endblock %}
