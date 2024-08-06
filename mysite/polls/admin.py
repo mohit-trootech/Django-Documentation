@@ -6,6 +6,8 @@ from polls.constants import (
     CHOICE_TOTAL_VOTES_RESET_DESCRIPTION,
     QUESTION_TOTAL_VOTES_RESET_DESCRIPTION,
 )
+from django.contrib import messages
+from django.utils.translation import ngettext
 
 
 @admin.register(Tag)
@@ -74,9 +76,20 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @admin.action(description=QUESTION_TOTAL_VOTES_RESET_DESCRIPTION)
     def mark_reset(self, request, queryset):
-        for instantce in queryset:
-            instantce.total_votes = VOTE_RESET
-            instantce.save(update_fields=["total_votes"])
+        # for instance in queryset:
+        #     instance.total_votes = VOTE_RESET
+        #     instance.save(update_fields=["total_votes"])
+        updated = queryset.update(total_votes=VOTE_RESET)
+        self.message_user(
+            request,
+            ngettext(
+                "%d votes was successfully been reset.",
+                "%d votes were successfully been reset.",
+                updated,
+            )
+            % updated,
+            messages.SUCCESS,
+        )
 
 
 @admin.register(Choice)
@@ -106,6 +119,17 @@ class ChoiceAdmin(admin.ModelAdmin):
 
     @admin.action(description=CHOICE_TOTAL_VOTES_RESET_DESCRIPTION)
     def mark_reset(self, request, queryset):
-        for instantce in queryset:
-            instantce.votes = VOTE_RESET
-            instantce.save(update_fields=["votes"])
+        # for instantce in queryset:
+        #     instantce.votes = VOTE_RESET
+        #     instantce.save(update_fields=["votes"])
+        updated = queryset.update(votes=VOTE_RESET)
+        self.message_user(
+            request,
+            ngettext(
+                "%d vote was successfully been reset.",
+                "%d votes were successfully been reset.",
+                updated,
+            )
+            % updated,
+            messages.SUCCESS,
+        )

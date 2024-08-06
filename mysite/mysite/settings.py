@@ -35,6 +35,7 @@ AUTH_USER_MODEL = "accounts.user"
 INSTALLED_APPS = [
     "polls.apps.PollsConfig",
     "accounts.apps.AccountsConfig",
+    "learning.apps.LearningConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -89,9 +90,13 @@ DATABASES = {
         "PASSWORD": "postgres",
         "HOST": "localhost",
         "PORT": "5432",
-    }
+    },
+    "sqlite": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    },
 }
-
+DATABASE_ROUTERS = ["mysite.routers.AppRouter"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

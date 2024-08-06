@@ -40,6 +40,7 @@ PASSWORD_VALIDATION_ERROR = "Password Format Incorrect"
 # Templates
 HOME_TEMPLATE = "polls/home.html"
 CREATE_POLLS_TEMPLATE = "polls/polls_create.html"
+POLLS_LIST_TEMPLATE = "polls/polls_list.html"
 # URLS
 HOME_URL = "/polls"
 

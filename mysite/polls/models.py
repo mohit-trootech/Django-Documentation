@@ -19,6 +19,8 @@ class Tag(TitleDescriptionModel):
     class meta:
         ordering = ["title"]
 
+    # tag = models.Manager()
+
 
 class Question(TitleDescriptionModel, TimeStampedModel):
 

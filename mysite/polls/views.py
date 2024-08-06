@@ -14,6 +14,7 @@ from polls.constants import (
     QUESTION_CONTEXT,
     CREATE_POLLS_TEMPLATE,
     HOME_URL,
+    POLLS_LIST_TEMPLATE,
 )
 
 
@@ -48,12 +49,12 @@ class IndexView(ListView):
         tag = self.request.GET.get("tag", "")
         queryset = Question.objects.filter(created__lte=timezone.now())
         if tag:
-            queryset = queryset.filter(question_tag__title__icontains=tag)
+            queryset = queryset.filter(question_tag=tag)
         return queryset.order_by(order_by)
 
     def get_template_names(self):
         if self.request.htmx:
-            return "polls/polls_list.html"
+            return POLLS_LIST_TEMPLATE
         else:
             return self.template_name
 
