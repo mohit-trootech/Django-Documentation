@@ -23,10 +23,8 @@ class Tag(TitleDescriptionModel):
 class Question(TitleDescriptionModel, TimeStampedModel):
 
     total_votes = models.IntegerField(default=0)
-    question_image = models.ImageField(
-        upload_to=QUESTION_MEDIA_PATH, blank=True, null=True
-    )
-    question_tag = models.ForeignKey(
+    image = models.ImageField(upload_to=QUESTION_MEDIA_PATH, blank=True, null=True)
+    tag = models.ForeignKey(
         Tag,
         on_delete=models.CASCADE,
         null=True,
@@ -43,8 +41,8 @@ class Question(TitleDescriptionModel, TimeStampedModel):
 
     @property
     def thumbnail_preview(self):
-        if self.question_image:
-            return format_html(THUMBNAIL_PREVIEW_TAG.format(self.question_image.url))
+        if self.image:
+            return format_html(THUMBNAIL_PREVIEW_TAG.format(self.image.url))
         return format_html(THUMBNAIL_PREVIEW_HTML)
 
 

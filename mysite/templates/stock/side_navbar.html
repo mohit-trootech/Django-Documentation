@@ -43,6 +43,13 @@
                 <i class="fa fa-user"></i>
                 Profile
             </a>
+            {% if request.user.is_superuser %}
+            <a type="button" href="/admin"
+                class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == 'accounts/profile/' %} active {% endif %}">
+                <i class="fa fa-user-tie"></i>
+                Admin
+            </a>
+            {% endif %}
             <a type="button" href="{% url 'logout' %}"
                 class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == '/accounts/logout/' %} active {% endif %}">
                 <i class="fa fa-arrow-right-from-bracket"></i>

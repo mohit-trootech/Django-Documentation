@@ -47,7 +47,7 @@ class CreatePoll(ModelForm):
 
     class Meta:
         model = Question
-        fields = ["title", "question_image", "question_tag"]
+        fields = ["title", "image", "tag"]
         widgets = {
             "title": TextInput(
                 attrs={
@@ -56,14 +56,14 @@ class CreatePoll(ModelForm):
                     "required": "true",
                 }
             ),
-            "question_image": ClearableFileInput(
+            "image": ClearableFileInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": POLLS_IMAGE_PLACEHOLDER,
                     "accept": "image/*",
                 }
             ),
-            "question_tag": Select(
+            "tag": Select(
                 choices=get_tag_data(),
                 attrs={
                     "class": "form-select text-capitalize",
@@ -73,12 +73,12 @@ class CreatePoll(ModelForm):
         }
         labels = {
             "title": POLL_TITLE_LABEL,
-            "question_image": POLL_IMAGE_LABEL,
-            "question_tag": POLL_TAG_LABEL,
+            "image": POLL_IMAGE_LABEL,
+            "tag": POLL_TAG_LABEL,
         }
 
         help_texts = {
             "title": POLL_TITLE_HELP_TEXT,
-            "question_image": POLL_IMAGE_HELP_TEXT,
-            "question_tag": POLL_TAG_HELP_TEXT,
+            "image": POLL_IMAGE_HELP_TEXT,
+            "tag": POLL_TAG_HELP_TEXT,
         }
