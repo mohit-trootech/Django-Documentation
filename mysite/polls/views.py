@@ -47,9 +47,11 @@ class IndexView(ListView):
         """
         order_by = self.request.GET.get("orderby", "-created")
         tag = self.request.GET.get("tag", "")
-        queryset = Question.objects.filter(created__lte=timezone.now())
+        queryset = Question.objects.prefetch_related("choice").filter(
+            created__lte=timezone.now()
+        )
         if tag:
-            queryset = queryset.filter(question_tag=tag)
+            queryset = queryset.filter(tag__title=tag)
         return queryset.order_by(order_by)
 
     def get_template_names(self):

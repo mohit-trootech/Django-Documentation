@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import TablespaceExample, Pizza, Topping, Restaurant
 
-# Register your models here.
+admin.site.register(TablespaceExample)
+admin.site.register(Pizza)
+admin.site.register(Topping)
+admin.site.register(Restaurant)

@@ -4,6 +4,43 @@
 
 Internally, a QuerySet can be constructed, filtered, sliced, and generally passed around without actually hitting the database. No database activity actually occurs until you do something to evaluate the queryset.
 
+```python
+from datetime import date
+
+from django.db import models
+
+
+class Blog(models.Model):
+    name = models.CharField(max_length=100)
+    tagline = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name
+
+
+class Entry(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    headline = models.CharField(max_length=255)
+    body_text = models.TextField()
+    pub_date = models.DateField()
+    mod_date = models.DateField(default=date.today)
+    authors = models.ManyToManyField(Author)
+    number_of_comments = models.IntegerField(default=0)
+    number_of_pingbacks = models.IntegerField(default=0)
+    rating = models.IntegerField(default=5)
+
+    def __str__(self):
+        return self.headline
+```
+
 ## Iteration
 
 A QuerySet is iterable, and it executes its database query the first time you iterate over it. For example, this will print the headline of all entries in the database:
@@ -130,6 +167,41 @@ The Blog model doesn’t define an entry__count attribute by itself, but by usin
 >>>
 >>> q[0].number_of_entries
 42
+```
+
+```python
+In [21]: a = Tag.objects.annotate(Count("tag"))
+
+In [22]: print(a.query)
+SELECT "polls_tag"."id", "polls_tag"."title", "polls_tag"."description", COUNT("polls_question"."id") AS "tag__count" FROM "polls_tag" LEFT OUTER JOIN "polls_question" ON ("polls_tag"."id" = "polls_question"."tag_id") GROUP BY "polls_tag"."id"
+
+In [23]: for i in a:
+    ...:     print("Tag Name",i, "Question Related with This Tag", i.tag__count)
+    ...: 
+Tag Name technology Question Related with This Tag 0
+Tag Name indian Question Related with This Tag 1
+Tag Name holiday Question Related with This Tag 0
+Tag Name sports Question Related with This Tag 0
+Tag Name travel Question Related with This Tag 0
+Tag Name art Question Related with This Tag 0
+Tag Name nature Question Related with This Tag 0
+Tag Name comics Question Related with This Tag 0
+Tag Name books Question Related with This Tag 1
+Tag Name festival Question Related with This Tag 0
+Tag Name dating Question Related with This Tag 0
+Tag Name money Question Related with This Tag 0
+Tag Name finance Question Related with This Tag 0
+Tag Name bollywood Question Related with This Tag 1
+Tag Name news Question Related with This Tag 0
+Tag Name relationship Question Related with This Tag 0
+Tag Name gaming Question Related with This Tag 0
+Tag Name college Question Related with This Tag 0
+Tag Name miscellaneous Question Related with This Tag 23
+Tag Name shopping Question Related with This Tag 1
+Tag Name anime Question Related with This Tag 1
+Tag Name religion Question Related with This Tag 0
+Tag Name school Question Related with This Tag 0
+Tag Name pride Question Related with This Tag 0
 ```
 
 ### 4. alias()

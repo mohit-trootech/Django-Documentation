@@ -10,6 +10,7 @@ from django.forms import (
     ClearableFileInput,
 )
 from accounts.models import User
+from django.core.validators import *
 from accounts.constants import (
     SIGNUP_FIRST_NAME_LABEL,
     SIGNUP_LAST_NAME_LABEL,

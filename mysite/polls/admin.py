@@ -45,7 +45,13 @@ class QuestionAdmin(admin.ModelAdmin):
         "total_votes",
         "created",
     ]
-    readonly_fields = ["id", "created", "modified", "thumbnail_preview"]
+
+    readonly_fields = [
+        "id",
+        "created",
+        "modified",
+        "thumbnail_preview",
+    ]
     fieldsets = [
         (
             "Question Details",
@@ -56,6 +62,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     "description",
                     "total_votes",
                     "tag",
+                    # "choice_all",
                     "image",
                 ],
             },

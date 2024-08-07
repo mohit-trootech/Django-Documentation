@@ -1,18 +1,17 @@
-from learning.models import TablespaceExample
+from learning.models import TablespaceExample, Pizza, Topping
 
 
 class AppRouter:
     default_db = "default"
     sqlite_db = "sqlite"
-    model = TablespaceExample
-    route_app_label = "learning"
+    related_models = [TablespaceExample, Pizza, Topping]
 
-    def allow_migration(self, db, app_label, model_name=None, **hints):
-        print(db, app_label, model_name, hints)
-        if (
-            model_name == self.model
-            or db == self.sqlite_db
-            or app_label == self.route_app_label
-        ):
+    def db_for_read(self, model, **hints):
+        if model in self.related_models:
+            return self.sqlite_db
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model in self.related_models:
             return self.sqlite_db
         return None
