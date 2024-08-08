@@ -102,7 +102,7 @@ class PollsCreate(FormView):
         return super().form_valid(form)
 
 
-def handler500(request, exception=None):
+def handler404(request, exception=None):
     response_error = {}
     response_error["status_code"] = 500
     print(response_error)

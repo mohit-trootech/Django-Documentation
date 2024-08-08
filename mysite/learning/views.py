@@ -10,6 +10,7 @@ from django.http import (
 from django.shortcuts import render
 import datetime
 from django.contrib import messages
+from .forms import UploadFileForm
 
 
 def request_object(request):
@@ -45,3 +46,22 @@ def redirect_view(request):
     print(request.status_code)
     # return HttpResponseRedirect(redirect_to="/learn/http")
     return HttpResponseNotAllowed(permitted_methods=["POST"])
+
+
+def handle_uploaded_file(f):
+
+    with open("new", "wb") as destination:
+        print(destination)
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+def file_form(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES["file"])
+            return HttpResponseRedirect("/learn/file_form/")
+    else:
+        form = UploadFileForm()
+    return render(request, "upload.html", {"form": form})

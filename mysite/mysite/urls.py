@@ -8,7 +8,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from schema_graph.views import Schema
 
 # from polls.views import InputForm
-handler500 = "polls.views.handler500"
+handler404 = "polls.views.handler404"
 urlpatterns = [
     path("", RedirectView.as_view(url="/learn/http/"), name="home"),
     path("learn/", include("learning.urls")),

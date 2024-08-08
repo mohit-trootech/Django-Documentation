@@ -14,4 +14,5 @@ urlpatterns = [
     path("http/", views.request_object, name="request-object"),
     path("not_found/", views.not_found, name="not_found"),
     path("redirect_view/", views.redirect_view, name="redirect_view"),
+    path("file_form/", views.file_form, name="file_form"),
 ]
