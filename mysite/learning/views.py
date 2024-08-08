@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from email import header
 from pickletools import read_uint1
 from django.http import (
@@ -7,10 +8,12 @@ from django.http import (
     HttpResponseNotModified,
     HttpResponseRedirect,
 )
-from django.shortcuts import render
+from django.urls import reverse
+from django.shortcuts import render, redirect
 import datetime
 from django.contrib import messages
 from .forms import UploadFileForm
+from .models import Pizza
 
 
 def request_object(request):
@@ -65,3 +68,8 @@ def file_form(request):
     else:
         form = UploadFileForm()
     return render(request, "upload.html", {"form": form})
+
+
+def redirect_view(request):
+    params = Pizza.objects.all()
+    return redirect("/learn/file_form", kwargs={params})

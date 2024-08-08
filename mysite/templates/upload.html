@@ -5,4 +5,8 @@
     {% csrf_token %}
     {{form.as_p}}
 </form>
+{% for piza in params %}
+{{piza}}
+{% endfor %}
+<a type="button" role="button" class="btn btn-primary" href="/learn/redirect_view">Redirect View</a>
 {% endblock %}
