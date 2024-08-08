@@ -12,7 +12,7 @@ from . import views
 
 urlpatterns = [
     path("http/", views.request_object, name="request-object"),
-    path("not_found/", views.not_found, name="not-found"),
+    # path("not_found/", views.not_found, name="not-found"),
     path("redirect_view/", views.redirect_view, name="redirect-view"),
     path("file_form/", views.file_form, name="file-form"),
     path("redirect_view/", views.redirect_view, name="redirect-view"),

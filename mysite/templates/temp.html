@@ -10,7 +10,11 @@
 </head>
 
 <body class="container my-5">
-
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-primary">{{message}}</div>
+    {% endfor %}
+    {% endif %}
     <table class="table table-hover table-primary rounded">
         <thead class="table-dark">
             <tr>

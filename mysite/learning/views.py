@@ -19,7 +19,6 @@ from .models import Pizza
 def request_object(request):
     now = datetime.datetime.now()
     html = "<html><body>It is now %s.</body></html>" % now
-    messages.info(request, "Hello")
     response = HttpResponse("Hello This is response")
     response.headers.setdefault("name", "Mohit")
     new_response = HttpResponse(
@@ -41,8 +40,8 @@ def request_object(request):
     )
 
 
-def not_found(request):
-    return HttpResponseNotFound("Hello")
+# def not_found(request):
+#     return HttpResponseNotFound("Hello")
 
 
 def redirect_view(request):
