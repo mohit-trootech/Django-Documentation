@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.utils import timezone
+from django.shortcuts import render
 from django.views.generic import *
 from polls.models import Question, Choice, Tag
 from django.http import HttpResponse, JsonResponse
@@ -99,3 +100,10 @@ class PollsCreate(FormView):
             if choice_text:
                 Choice.objects.create(question=question, title=choice_text)
         return super().form_valid(form)
+
+
+def handler500(request, exception=None):
+    response_error = {}
+    response_error["status_code"] = 500
+    print(response_error)
+    return render(request, "stock/error.html", response_error)

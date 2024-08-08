@@ -38,12 +38,9 @@ def generate_random_poll(index):
 
 polls = [generate_random_poll(i) for i in range(1001, 100000)]
 
-with open("bulk_question.json", "w") as f:
-    json.dump(f, polls)
-
 
 def generate_random_choice(index):
-    choices = f"Option {index}A"
+    choices = f"Option {index}B"
     return {
         "title": choices,
         "question": Question.objects.get(title=f"Sample Poll Question {index}"),
