@@ -2,6 +2,7 @@
 from django.utils import timezone
 from django.shortcuts import render
 from django.views.generic import *
+from django.contrib.messages.views import SuccessMessageMixin
 from polls.models import Question, Choice, Tag
 from django.http import HttpResponse, JsonResponse
 from polls.utils import (
@@ -83,10 +84,11 @@ def vote(request) -> JsonResponse:
     return JsonResponse(updated_data)
 
 
-class PollsCreate(FormView):
+class PollsCreate(FormView, SuccessMessageMixin):
     template_name = CREATE_POLLS_TEMPLATE
     form_class = CreatePoll
     success_url = HOME_URL
+    success_message = "Polls is Successfully Created"
 
     def form_valid(self, form) -> HttpResponse:
         """

@@ -90,5 +90,7 @@ class PizzaDetails(DetailView):
     template_name = "pizza_details.html"
 
     def get_queryset(self):
-        pprint.pprint(self.request.__dict__)
         return super().get_queryset()
+
+    def get_slug_field(self) -> str:
+        return super().get_slug_field()

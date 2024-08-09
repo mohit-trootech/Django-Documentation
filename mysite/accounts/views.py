@@ -65,14 +65,6 @@ class ProfileView(UpdateView):
         return reverse_lazy("profile", kwargs={"pk": self.request.user.pk})
 
 
-class ProfileCounterRedirect(RedirectView):
-    pattern_name = "profile-details"
-    query_string = True
-
-    def get_redirect_url(self, *args, **kwargs) -> str | None:
-        return super().get_redirect_url(*args, **kwargs)
-
-
 class LogoutView(View):
 
     def get(self, request):
