@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 
@@ -22,7 +23,7 @@ class Topping(models.Model):
 
 class Pizza(models.Model):
     name = models.CharField(max_length=50)
-    toppings = models.ManyToManyField(Topping)
+    toppings = models.ManyToManyField(Topping, related_name="pizza")
 
     def __str__(self):
         return "%s (%s)" % (

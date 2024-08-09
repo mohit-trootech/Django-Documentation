@@ -8,8 +8,10 @@ from django.http import (
     HttpResponseNotModified,
     HttpResponseRedirect,
 )
+import pprint
+from django.views.generic import RedirectView, ListView, DetailView
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import datetime
 from django.contrib import messages
 from .forms import UploadFileForm
@@ -72,3 +74,21 @@ def file_form(request):
 def redirect_view(request):
     params = Pizza.objects.all()
     return redirect("/learn/file_form", kwargs={params})
+
+
+class PizzaRedirectView(RedirectView):
+    pattern_name = "pizza-details"
+    query_string = True
+
+    def get_redirect_url(self, *args, **kwargs) -> str | None:
+        pizza = get_object_or_404(Pizza, pk=kwargs["pk"])
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class PizzaDetails(DetailView):
+    model = Pizza
+    template_name = "pizza_details.html"
+
+    def get_queryset(self):
+        pprint.pprint(self.request.__dict__)
+        return super().get_queryset()

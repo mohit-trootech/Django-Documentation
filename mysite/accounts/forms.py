@@ -79,6 +79,7 @@ class UserLoginForm(Form):
 
 
 class UserUpdateForm(ModelForm):
+
     class Meta:
         model = User
         fields = [

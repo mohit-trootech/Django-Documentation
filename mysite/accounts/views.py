@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import FormView, View, UpdateView
+from django.views.generic import FormView, View, RedirectView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from accounts.forms import UserLoginForm, UserCreationForm, UserUpdateForm
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from .models import User
+from django.http import HttpResponseForbidden
 from accounts.constants import (
     LOGIN_ERROR,
     LOGIN_TEMPLATE,
@@ -13,6 +13,7 @@ from accounts.constants import (
     LOGIN_URL,
     PROFILE_TEMPLATE,
 )
+from accounts.models import User
 
 
 class LoginView(FormView):
@@ -49,8 +50,27 @@ class ProfileView(UpdateView):
     template_name = PROFILE_TEMPLATE
     form_class = UserUpdateForm
 
+    def get_object(self):
+        queryset = self.get_queryset()
+        user = get_object_or_404(queryset, pk=self.kwargs["pk"])
+        if user != self.request.user:
+            return HttpResponseForbidden("You are not allowed to edit this profile.")
+        return user
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse_lazy("profile", kwargs={"pk": self.request.user.pk})
+
+
+class ProfileCounterRedirect(RedirectView):
+    pattern_name = "profile-details"
+    query_string = True
+
+    def get_redirect_url(self, *args, **kwargs) -> str | None:
+        return super().get_redirect_url(*args, **kwargs)
 
 
 class LogoutView(View):

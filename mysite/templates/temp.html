@@ -45,9 +45,12 @@
     </div>
     {% if messages %}
     {% for message in messages %}
-
+    <div class="alert alert-primary">
+        {{message}}
+    </div>
     {% endfor %}
     {% endif %}
+    <a href="/accounts/login" role="button" class="btn btn-danger">Login</a>
     <table class="table table-hover table-primary rounded">
         <thead class="table-dark">
             <tr>

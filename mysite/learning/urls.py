@@ -16,4 +16,10 @@ urlpatterns = [
     path("redirect_view/", views.redirect_view, name="redirect-view"),
     path("file_form/", views.file_form, name="file-form"),
     path("redirect_view/", views.redirect_view, name="redirect-view"),
+    path("pizaa_details", views.PizzaDetails.as_view(), name="pizza-details"),
+    path(
+        "pizaa_redirect_counter/<int:pk>",
+        views.PizzaDetails.as_view(),
+        name="pizza-details",
+    ),
 ]

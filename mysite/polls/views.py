@@ -38,7 +38,7 @@ class IndexView(ListView):
     model = Question
     context_object_name = QUESTION_CONTEXT
     template_name = HOME_TEMPLATE
-    paginate_by = 10
+    paginate_by = 100
 
     def get_queryset(self):
         """
@@ -46,14 +46,18 @@ class IndexView(ListView):
 
         :return:
         """
+        from django.db.models import Q
+
+        query = Q()
         order_by = self.request.GET.get("orderby", "-created")
         tag = self.request.GET.get("tag", "")
-        queryset = Question.objects.prefetch_related("choice").filter(
-            created__lte=timezone.now()
-        )
         if tag:
-            queryset = queryset.filter(tag__title=tag)
-        return queryset.order_by(order_by)
+            query = Q(tag__title=tag)
+        return (
+            Question.objects.prefetch_related("choice")
+            .filter(query & Q(created__lte=timezone.now()))
+            .order_by(order_by)
+        )
 
     def get_template_names(self):
         if self.request.htmx:
