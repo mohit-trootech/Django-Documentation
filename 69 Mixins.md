@@ -558,7 +558,3 @@ class MySecureCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
 ```
 
 In this example, the view requires the user to be logged in and have a specific permission to create a new object.
-
----
-
-This comprehensive guide should cover most of the commonly used mixins in Django and their applications.
