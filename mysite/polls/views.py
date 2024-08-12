@@ -80,7 +80,7 @@ def vote(request) -> JsonResponse:
     :return: JsonResponse
     """
     data = json.loads(request.POST["data"])
-    updated_data = update_vote_data_choice_id(data)
+    updated_data = update_vote_data_chArticleice_id(data)
     return JsonResponse(updated_data)
 
 
@@ -113,3 +113,16 @@ def handler404(request, exception=None):
     response_error["status_code"] = 500
     print(response_error)
     return render(request, "stock/error.html", response_error)
+
+
+class QuestionYearArchiveView(YearArchiveView):
+    queryset = Question.objects.all()
+    date_field = "created"
+    make_object_list = True
+    paginate_by = 10
+
+
+class QuestionMonthArchiveView(MonthArchiveView):
+    queryset = Question.objects.all()
+    date_field = "created"
+    paginate_by = 10

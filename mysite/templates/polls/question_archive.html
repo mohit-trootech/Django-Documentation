@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}QuickPolls{% endblock %}
+
+{% block content %}
+{% include 'stock/back_to_top.html' %}
+<div class="btn-group mb-3 text-center d-flex">
+    {% for date in date_list %}
+    <a href="{% url 'archive-index-year' date|date:'Y' %}" role="btn" class="btn btn-primary">{{date|date:"Y"}}</a>
+    {% endfor %}
+</div>
+{% if latest %}
+<ul class="list-group">
+    {% for polls in latest %}
+    <li class="list-group-item">{{ polls.created }}: {{ polls.title }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="alert alert-danger my-4" role="alert">
+    Sorry No Polls Available &circledR;
+</div>
+{% endif %}
+{% endblock %}

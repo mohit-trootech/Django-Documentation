@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}QuickPolls{% endblock %}
+
+{% block content %}
+{% include 'stock/back_to_top.html' %}
+<ul class="list-group">
+    {% for date in date_list %}
+    <a role="button" href="{% url 'archive-index-month'  date|date:'Y'  date|date:'M' %}"
+        class="list-group-item">{{date|date:"M" }}</a>
+    {% endfor %}
+</ul>
+
+<div>
+    <ul class="list-group">
+        <h1>All Articles for {{ year|date:"Y" }}</h1>
+        {% for obj in object_list %}
+        <li class="list-group-item">{{ obj.title }} - {{ obj.created|date:"F j, Y" }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}QuickPolls{% endblock %}
+
+{% block content %}
+{% include 'stock/back_to_top.html' %}
+<ul class="list-group">
+    {% for article in object_list %}
+    <li class="list-group-item">{{ article.created|date:"F j, Y" }}: {{ article.title }}</li>
+    {% endfor %}
+</ul>
+
+<p>
+    {% if previous_month %}
+    Previous Month: {{ previous_month|date:"F Y" }}
+    {% endif %}
+    {% if next_month %}
+    Next Month: {{ next_month|date:"F Y" }}
+    {% endif %}
+</p>
+{% endblock %}
