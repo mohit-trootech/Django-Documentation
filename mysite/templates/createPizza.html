@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for error in form.error %}
+{{error}}
+{% endfor %}
+<form class="p-3 border rounded" method="POST">{% csrf_token %}
+    {% for field in form %}
+    {% if field.id_for_label == "id_toppings" %}
+    <div class="mb-3">
+        <select class="form-select" name="{{field.html_name}}" multiple aria-label="Multiple select example">
+            {% for option in field.field.choices %}
+            <option value="{{ option.0 }}">{{option.1}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% else %}
+    <div class="mb-3">
+        <label for="{{field.id_for_label}}">{{field.label}}</label>
+        {{field}}
+    </div>
+    {% endif %}
+    {% endfor %}
+    <input type="submit" value="Save" class="btn btn-primary">
+</form>
+<script>
+    let txtInput = document.querySelector("input[type=text]");
+    txtInput.classList.add("form-control")
+</script>
+{% endblock %}

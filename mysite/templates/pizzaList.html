@@ -9,8 +9,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body class="">
-    <div class="card position-absolute top-50 start-50 translate-middle" style="width: 18rem;">
+<body class=" conatiner">
+    {% for pizza in pizzas %}
+    <div class="card d-flex justify-content-center mx-auto mt-3" style="width: 18rem;">
         <div class="card-header">
             {{pizza.name}}
         </div>
@@ -19,8 +20,20 @@
             <li class="list-group-item">{{toppings}}</li>
             {% endfor %}
         </ul>
+        <div class="card-footer">
+            <a role="button" href="{% url 'pizza-details' pizza.pk %}"
+                class="{% cycle 'btn-warning' 'btn-danger' 'btn-primary' %} my-3 btn w-100">Detail</a>
+            <a role="button" href="{% url 'pizza-delete' pizza.pk %}"
+                class="d-flex justify-content-center mx-auto my-3 btn btn-primary">Delete
+                Pizza</a>
+        </div>
     </div>
+    {% endfor %}
+    <div class="container my-3">
+        <a role="button" href="{% url 'pizza-add' %}" class="d-flex justify-content-center mx-auto btn btn-primary">Add
+            Pizza</a>
 
+    </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

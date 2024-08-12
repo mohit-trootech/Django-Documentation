@@ -9,18 +9,14 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body class="">
-    <div class="card position-absolute top-50 start-50 translate-middle" style="width: 18rem;">
-        <div class="card-header">
-            {{pizza.name}}
-        </div>
-        <ul class="list-group list-group-flush">
-            {% for toppings in pizza.toppings.all %}
-            <li class="list-group-item">{{toppings}}</li>
-            {% endfor %}
-        </ul>
-    </div>
+<body class="bg-secondary-subtle">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <form method="post">{% csrf_token %}
+            <p>Are you sure you want to delete "{{ object }}"?</p>
+            <input type="submit" value="Confirm" role="button" class="btn btn-warning ">
+        </form>
 
+    </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

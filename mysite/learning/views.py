@@ -9,7 +9,13 @@ from django.http import (
     HttpResponseRedirect,
 )
 import pprint
-from django.views.generic import RedirectView, ListView, DetailView
+from django.views.generic import (
+    RedirectView,
+    ListView,
+    DetailView,
+    CreateView,
+    DeleteView,
+)
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 import datetime
@@ -94,3 +100,22 @@ class PizzaDetails(DetailView):
 
     def get_slug_field(self) -> str:
         return super().get_slug_field()
+
+
+class CreatePizzaView(CreateView):
+    model = Pizza
+    fields = "__all__"
+    template_name = "createPizza.html"
+    success_url = "/learn/pizza_list"
+
+
+class PizzaList(ListView):
+    model = Pizza
+    template_name = "pizzaList.html"
+    context_object_name = "pizzas"
+
+
+class PizzaDelete(DeleteView):
+    model = Pizza
+    template_name = "pizzaDelete.html"
+    success_url = "/learn/pizza_list"
