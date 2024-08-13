@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if pdf %}
+<div class="d-flex-inline align-items-center justify-content-center">
+    <figure class="figure w-100">
+        <embed src="{{pdf.pdf.url}}" type="application/pdf" frameBorder="0" class="w-100" height="500px"
+            scrolling="auto"></embed>
+        <figcaption class="figure-caption">{{pdf.title}}</figcaption>
+    </figure>
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+        No Pdf is Available !
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

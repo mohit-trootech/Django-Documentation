@@ -80,7 +80,7 @@ def vote(request) -> JsonResponse:
     :return: JsonResponse
     """
     data = json.loads(request.POST["data"])
-    updated_data = update_vote_data_chArticleice_id(data)
+    updated_data = update_vote_data_choice_id(data)
     return JsonResponse(updated_data)
 
 

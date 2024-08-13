@@ -78,7 +78,8 @@ DEBUG_TOOLBAR_PANELS = [
     "debug_toolbar.panels.redirects.RedirectsPanel",
     "debug_toolbar.panels.profiling.ProfilingPanel",
 ]
-INTERNAL_IPS = ("127.0.0.1", "172.17.0.1")
+INTERNAL_IPS = "127.0.0.1"
+X_FRAME_OPTIONS = "127.0.0.1"
 ROOT_URLCONF = "mysite.urls"
 
 TEMPLATES = [
@@ -148,8 +149,6 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 
 USE_TZ = True
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 

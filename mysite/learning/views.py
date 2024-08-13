@@ -21,7 +21,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 import datetime
 from django.contrib import messages
 from .forms import UploadFileForm
-from .models import Pizza
+from .models import Pizza, PdfFileModel
 
 
 def request_object(request):
@@ -119,3 +119,15 @@ class PizzaDelete(DeleteView):
     model = Pizza
     template_name = "pizzaDelete.html"
     success_url = "/learn/pizza_list"
+
+
+class PdfDetail(DetailView):
+    model = PdfFileModel
+    template_name = "pdf_detail.html"
+    context_object_name = "pdf"
+
+
+class PdfList(ListView):
+    model = PdfFileModel
+    template_name = "pdf_list.html"
+    context_object_name = "pdfs"

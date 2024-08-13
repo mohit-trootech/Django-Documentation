@@ -105,6 +105,7 @@ class ChoiceAdmin(admin.ModelAdmin):
     list_display = ["title", "votes", "created"]
     ordering = ["title"]
     readonly_fields = ["id", "created", "modified"]
+    raw_id_fields = ("question",)
     fieldsets = [
         (
             "Choice Details",

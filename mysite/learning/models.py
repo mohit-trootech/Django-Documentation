@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django_extensions.db.models import TitleDescriptionModel
 
 
 # Create your models here.
@@ -37,3 +38,10 @@ class Restaurant(models.Model):
     best_pizza = models.ForeignKey(
         Pizza, related_name="championed_by", on_delete=models.CASCADE
     )
+
+
+class PdfFileModel(TitleDescriptionModel):
+    pdf = models.FileField(upload_to="pdfs")
+
+    def __str__(self):
+        return "{title} Pdf".format(title=self.title)

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if pdfs %}
+<ul class="list-group">
+    {% for pdf in pdfs %}
+    <li class="list-group-item d-flex align-items-center justify-content-between">{{pdf.title}}
+        <a href="{% url 'pdf-detail' pdf.pk %}" role="button" class="btn btn-info">Details</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    No Pdfs are Available !
+</div>
+{% endif %}
+{% endblock %}

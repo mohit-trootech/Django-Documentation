@@ -19,6 +19,8 @@ urlpatterns = [
     path("pizaa_add", views.CreatePizzaView.as_view(), name="pizza-add"),
     path("pizza_list", views.PizzaList.as_view(), name="pizza-list"),
     path("pizaa_details", views.PizzaDetails.as_view(), name="pizza-details"),
+    path("pdf_detail/<int:pk>www", views.PdfDetail.as_view(), name="pdf-detail"),
+    path("pdf_list", views.PdfList.as_view(), name="pdf-lists"),
     path("pizaa_delete/<int:pk>", views.PizzaDelete.as_view(), name="pizza-delete"),
     path(
         "pizaa_redirect_counter/<int:pk>",

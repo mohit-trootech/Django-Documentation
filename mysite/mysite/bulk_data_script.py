@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 import json
 import random
 from polls.models import Tag, Question
+from faker import Faker
 
 tags_list = [
     "anime",
@@ -32,7 +34,6 @@ tags_list = [
 
 def generate_random_poll(index):
     question = f"Sample Poll Question {index}"
-    tag = random.choice(tags_list)
     return {"title": question, "tag": Tag.objects.get(title=random.choice(tags_list))}
 
 
