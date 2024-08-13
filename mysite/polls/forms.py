@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.forms import *
-from polls.models import Question
-from polls.utils import get_tag_data
+from polls.models import Question, Tag
 from polls.constants import (
     POLL_TAG_LABEL,
     POLL_TITLE_LABEL,
@@ -13,7 +12,8 @@ from polls.constants import (
     POLLS_IMAGE_PLACEHOLDER,
     POLLS_TAG_PLACEHOLDER,
 )
-
+from accounts.models import User
+from django.contrib.auth.models import Group
 
 # class NameForm(Form):
 #     username = CharField(
@@ -64,7 +64,6 @@ class CreatePoll(ModelForm):
                 }
             ),
             "tag": Select(
-                choices=get_tag_data(),
                 attrs={
                     "class": "form-select text-capitalize",
                     "placeholder": POLLS_TAG_PLACEHOLDER,
@@ -81,4 +80,18 @@ class CreatePoll(ModelForm):
             "title": POLL_TITLE_HELP_TEXT,
             "image": POLL_IMAGE_HELP_TEXT,
             "tag": POLL_TAG_HELP_TEXT,
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CreatePoll, self).__init__(*args, **kwargs)
+        self.fields["tag"].queryset = Tag.objects.all()
+
+
+class UserGroupEdit(ModelForm):
+    class Meta:
+        model = User
+        fields = ["id", "groups"]
+        widgets = {
+            "username": TextInput(attrs={"hidden": "true"}),
+            "groups": SelectMultiple(attrs={"class": "form-control"}),
         }

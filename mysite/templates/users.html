@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Username</th>
+            <th scope="col">Groups</th>
+            <th scope="col">UpdateGroup</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.username}}</td>
+            <td>
+                {% for group in user.groups.all %}
+                {{group}}
+                {% endfor %}
+            </td>
+            <td>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="number" class="form-control" hidden name="id" id="id" value="{{user.id}}">
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -8,6 +8,12 @@ from accounts.constants import (
     USER_ADMIN_STATUS_ACTIVE_DESCRIPTION,
 )
 
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Permission
+
+admin.site.register(ContentType)
+admin.site.register(Permission)
+
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):

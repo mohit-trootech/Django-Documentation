@@ -15,6 +15,7 @@ urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
     path("vote", views.vote, name="vote"),
     path("add", views.PollsCreate.as_view(), name="polls-create"),
+    path("users", views.PollsUsers.as_view(), name="polls-users"),
     path(
         "archive_index/",
         ArchiveIndexView.as_view(

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from email import header
-from pickletools import read_uint1
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
@@ -22,6 +21,7 @@ import datetime
 from django.contrib import messages
 from .forms import UploadFileForm
 from .models import Pizza, PdfFileModel
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def request_object(request):
@@ -102,11 +102,18 @@ class PizzaDetails(DetailView):
         return super().get_slug_field()
 
 
-class CreatePizzaView(CreateView):
+class CreatePizzaView(CreateView, SuccessMessageMixin):
     model = Pizza
     fields = "__all__"
     template_name = "createPizza.html"
     success_url = "/learn/pizza_list"
+    success_message = "permission Not Allowed"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.has_perms(["learning.add_pizza"]):
+            messages.info(request, "Permission Not Allowed")
+            return HttpResponseRedirect("/polls")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class PizzaList(ListView):

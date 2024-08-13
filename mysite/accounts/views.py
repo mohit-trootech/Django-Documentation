@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import FormView, View, RedirectView, UpdateView
+
+# from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import FormMixin
 from django.contrib.auth import authenticate, login, logout
 from accounts.forms import UserLoginForm, UserCreationForm, UserUpdateForm
 from django.shortcuts import redirect, get_object_or_404
@@ -14,6 +17,8 @@ from accounts.constants import (
     PROFILE_TEMPLATE,
 )
 from accounts.models import User
+
+from django.contrib.auth.password_validation import validate_password
 
 
 class LoginView(FormView):
@@ -40,9 +45,14 @@ class SignupView(FormView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
-        user.set_password(form.cleaned_data["password"])
-        user.save()
-        return super().form_valid(form)
+        try:
+            validate_password(form.cleaned_data["password"])
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+            return super().form_valid(form)
+        except Exception as e:
+            form.add_error(None, *e)
+            return super().form_invalid(form)
 
 
 class ProfileView(UpdateView):

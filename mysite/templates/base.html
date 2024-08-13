@@ -20,7 +20,13 @@
 
     {% include 'stock/preload.html' %}
     {% block preloader %}{% endblock %}
-
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-primary">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
     <!-- Main Content Start -->
     <div class="container-fluid d-none row" id="main" style="height: 100vh;">
         <!-- Side Bar Start -->

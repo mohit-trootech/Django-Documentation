@@ -32,6 +32,17 @@
                 <i class="fa fa-tag"></i>
                 Tags
             </a>
+            {% comment %}
+            {% if perms.learn.add_pizza %}
+            {% endcomment %}
+            <a type="button" href="/learn/pizaa_add"
+                class="list-group-item list-group-item-action rounded text-capitalize fs-5 border-0 px-4 {% if request.url == 'learn/pizaa_add/' %} active {% endif %} ">
+                <i class="fa fa-tag"></i>
+                pizza add
+            </a>
+            {% comment%}
+            {% endif %}
+            {% endcomment %}
             <a type="button" href="{% url 'polls-create' %}"
                 class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == 'polls/tags/' %} active {% endif %}">
                 <i class="fa fa-square-poll-vertical"></i>
@@ -48,6 +59,11 @@
                 class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == 'accounts/profile/' %} active {% endif %}">
                 <i class="fa fa-user-tie"></i>
                 Admin
+            </a>
+            <a type="button" href="/polls/users"
+                class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == 'accounts/profile/' %} active {% endif %}">
+                <i class="fa fa-user-tie"></i>
+                Available Users
             </a>
             {% endif %}
             <a type="button" href="{% url 'logout' %}"

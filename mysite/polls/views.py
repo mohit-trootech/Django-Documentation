@@ -5,12 +5,14 @@ from django.views.generic import *
 from django.contrib.messages.views import SuccessMessageMixin
 from polls.models import Question, Choice, Tag
 from django.http import HttpResponse, JsonResponse
+from accounts.models import User
 from polls.utils import (
     update_vote_data_choice_id,
 )
+from django.contrib.auth.forms import UserCreationForm
 from typing import Any
 import json
-from polls.forms import CreatePoll
+from polls.forms import CreatePoll, UserGroupEdit
 from polls.constants import (
     HOME_TEMPLATE,
     QUESTION_CONTEXT,
@@ -126,3 +128,24 @@ class QuestionMonthArchiveView(MonthArchiveView):
     queryset = Question.objects.all()
     date_field = "created"
     paginate_by = 10
+
+
+class PollsUsers(ListView, FormView):
+    template_name = "users.html"
+    model = User
+    context_object_name = "users"
+    form_class = UserGroupEdit
+    success_url = "/polls/users"
+
+    def form_valid(self, form):
+        id = self.request.POST.get("id")
+        user = User.objects.get(id=id)
+        groups = form.cleaned_data["groups"]
+        for group in groups:
+            user.groups.add(group)
+        print(groups, id)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        return response

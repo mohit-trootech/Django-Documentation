@@ -11,6 +11,7 @@ from schema_graph.views import Schema
 handler404 = "polls.views.handler404"
 urlpatterns = [
     path("", RedirectView.as_view(url="/learn/http/"), name="home"),
+    path("account/", include("django.contrib.auth.urls")),
     path("learn/", include("learning.urls")),
     # path("", InputForm.as_view(), name="form"),
     path("polls/", include("polls.urls")),

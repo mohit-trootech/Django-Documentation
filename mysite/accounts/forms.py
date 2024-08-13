@@ -42,6 +42,7 @@ class UserCreationForm(ModelForm):
             else:
                 input_option = TextInput
             widgets[field] = input_option(attrs={"class": "form-control"})
+
         labels = {
             "first_name": SIGNUP_FIRST_NAME_LABEL,
             "last_name": SIGNUP_LAST_NAME_LABEL,

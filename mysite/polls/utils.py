@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from polls.models import Choice, Question, Tag
-from django.db.models.query import QuerySet
+from polls.models import Choice, Question
 from typing import Dict, Any, Pattern
 from django.db.models import F
 import re
@@ -67,12 +66,3 @@ def validate(password: str) -> bool:
             and find_pattern(r"[$#@!%^&*]", password)
         )
     return False
-
-
-def get_tag_data() -> QuerySet[Tag]:
-    """
-    Get all Tag Data
-
-    :return: QuerySet of Tag object
-    """
-    return Tag.objects.all()
