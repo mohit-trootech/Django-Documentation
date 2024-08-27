@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import *
 from django.contrib.messages.views import SuccessMessageMixin
 from polls.models import Question, Choice, Tag
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from accounts.models import User
 from polls.utils import (
     update_vote_data_choice_id,
@@ -20,8 +20,8 @@ from polls.constants import (
     HOME_URL,
     POLLS_LIST_TEMPLATE,
 )
+from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
-
 
 # class InputForm(FormView):
 #     template_name = "Temp.html"
@@ -42,7 +42,10 @@ class IndexView(ListView):
     model = Question
     context_object_name = QUESTION_CONTEXT
     template_name = HOME_TEMPLATE
-    paginate_by = 100
+    paginate_by = 10
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         """
@@ -64,7 +67,7 @@ class IndexView(ListView):
         )
 
     def get_template_names(self):
-        if self.request.htmx:
+        if self.request.htmx:  # type: ignore
             return POLLS_LIST_TEMPLATE
         else:
             return self.template_name
@@ -72,6 +75,14 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
+        if cache.get("key"):
+            value = cache.get("key")
+            print("True")
+        else:
+            print("False")
+            cache.set("key", "value", 10)
+            value = cache.get("key")
+        context["value"] = value
         return context
 
 

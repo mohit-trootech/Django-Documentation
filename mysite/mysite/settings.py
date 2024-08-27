@@ -13,7 +13,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import dotenv_values
 
+config = dotenv_values(".env")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,7 +50,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "schema_graph",
 ]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -204,8 +205,7 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
         "LOCATION": "cache_table",
-        "TIMEOUT": 60,
-        "OPTIONS": {"MAX_ENTRIES": 1000},
+        "OPTIONS": {"MAX_ENTRIES": 60},
     }
 }
 
@@ -234,3 +234,13 @@ CACHES = {
 #         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
 #     }
 # }
+
+# Email
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_SSL = True  # use port 465
+EMAIL_USE_TLS = False  # use port 587
+EMAIL_PORT = 465  # OR 587
+EMAIL_HOST_USER = config.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config.get("EMAIL_HOST_PASSWORD")

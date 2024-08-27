@@ -9,12 +9,18 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
     PasswordResetConfirmView,
 )
+from django.views.decorators.cache import cache_page, never_cache
+from django.views.decorators.vary import vary_on_headers
 
 urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("signup/", views.SignupView.as_view(), name="signup"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
-    path("profile/<int:pk>/", views.ProfileView.as_view(), name="profile"),
+    path(
+        "profile/<int:pk>/",
+        cache_page(0)(views.ProfileView.as_view()),
+        name="profile",
+    ),
     path("password_change", PasswordChangeView.as_view(), name="password_change"),
     path(
         "password_change_done",

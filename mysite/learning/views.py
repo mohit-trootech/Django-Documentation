@@ -36,6 +36,10 @@ def request_object(request):
         },
     )
     not_found = HttpResponseNotFound()
+    not_allowed = HttpResponseNotAllowed
+    response.set_cookie("key", "value")
+    print(request.COOKIES)
+    print(response.cookies)
     return render(
         request,
         "temp.html",
@@ -44,6 +48,7 @@ def request_object(request):
             "response": response,
             "new_response": new_response,
             "not_found": not_found,
+            "not_allowed": not_allowed,
         },
     )
 

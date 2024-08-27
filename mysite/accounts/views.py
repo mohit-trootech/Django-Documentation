@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import FormView, View, RedirectView, UpdateView
+from django.views.decorators.vary import vary_on_headers
 
 # from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import FormMixin
