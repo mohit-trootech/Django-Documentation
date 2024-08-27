@@ -5,7 +5,9 @@
 /* Sticky Sidebar */
 
 #sidebar {
+  height: 100vh;
   position: sticky;
+  overflow: scroll;
   top: 0;
 }
 

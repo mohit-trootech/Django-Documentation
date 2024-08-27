@@ -20,6 +20,7 @@ from polls.constants import (
     HOME_URL,
     POLLS_LIST_TEMPLATE,
 )
+from django.utils.translation import gettext_lazy as _
 
 
 # class InputForm(FormView):
@@ -108,6 +109,11 @@ class PollsCreate(FormView, SuccessMessageMixin):
             if choice_text:
                 Choice.objects.create(question=question, title=choice_text)
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["test"] = _("Hello Brother")
+        return context
 
 
 def handler404(request, exception=None):

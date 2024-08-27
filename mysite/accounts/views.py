@@ -17,13 +17,14 @@ from accounts.constants import (
     PROFILE_TEMPLATE,
 )
 from accounts.models import User
-
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
 
 
 class LoginView(FormView):
     template_name = LOGIN_TEMPLATE
-    form_class = UserLoginForm
+    # form_class = UserLoginForm
+    form_class = AuthenticationForm
     success_url = HOME_URL
 
     def form_valid(self, form):
@@ -51,7 +52,8 @@ class SignupView(FormView):
             user.save()
             return super().form_valid(form)
         except Exception as e:
-            form.add_error(None, *e)
+            form.add_error(None, e)
+
             return super().form_invalid(form)
 
 
