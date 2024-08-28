@@ -7,19 +7,20 @@ from django.http import (
     HttpResponseNotModified,
     HttpResponseRedirect,
 )
-import pprint
 from django.views.generic import (
     RedirectView,
     ListView,
     DetailView,
     CreateView,
     DeleteView,
+    TemplateView,
+    FormView,
 )
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 import datetime
 from django.contrib import messages
-from .forms import UploadFileForm
+from .forms import UploadFileForm, SendEmail
 from .models import Pizza, PdfFileModel
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -143,3 +144,41 @@ class PdfList(ListView):
     model = PdfFileModel
     template_name = "pdf_list.html"
     context_object_name = "pdfs"
+
+
+class EmailSendView(FormView):
+    template_name = "email_send.html"
+    form_class = SendEmail
+    success_url = "/learn/send_email"
+
+    def form_valid(self, form):
+        from django.contrib.messages import info
+        from django.core.mail import send_mass_mail, EmailMultiAlternatives
+        from django.template.loader import render_to_string
+
+        subject = form.cleaned_data.get("subject")
+        sender = form.cleaned_data.get("sender")
+        receiver = form.cleaned_data.get("receiver").split(",")
+        attachment = form.cleaned_data.get("attachment")
+        body = "Temp Body"
+        print(receiver)
+        try:
+            mail = EmailMultiAlternatives(
+                subject=subject,
+                body=body,
+                from_email=sender,
+                to=receiver,
+            )
+            html_message = render_to_string(
+                "email.html",
+                context={"user": self.request.user, "from": sender},
+            )
+            mail.attach_alternative(html_message, "text/html")
+            if attachment:
+                mail.attach("image.jpeg", attachment.read())
+            mail.send()
+            info(self.request, "Mail Send Successfully")
+        except Exception as e:
+            form.add_error(None, e)
+            return super().form_invalid(form)
+        return super().form_valid(form)

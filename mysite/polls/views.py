@@ -20,6 +20,12 @@ from polls.constants import (
     HOME_URL,
     POLLS_LIST_TEMPLATE,
 )
+from django.core.mail import (
+    send_mail,
+    send_mass_mail,
+    EmailMessage,
+    EmailMultiAlternatives,
+)
 from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 

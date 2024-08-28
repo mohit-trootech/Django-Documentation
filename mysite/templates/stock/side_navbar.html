@@ -28,6 +28,12 @@
                 <i class="fa fa-home"></i>
                 Home
             </a>
+            <a type="button" href="{% url 'send_email' %}"
+                class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == '/polls/' %} active {% endif %}"
+                aria-current="true">
+                <i class="fa fa-home"></i>
+                Send Email
+            </a>
             <a type="button" href="{% url 'pdf-lists' %}"
                 class="list-group-item list-group-item-action rounded fs-5 border-0 px-4 {% if request.url == 'polls/tags/' %} active {% endif %}">
                 <i class="fa fa-tag"></i>

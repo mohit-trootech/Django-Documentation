@@ -7,10 +7,12 @@ from mysite.settings import MEDIA_ROOT, MEDIA_URL
 from debug_toolbar.toolbar import debug_toolbar_urls
 from schema_graph.views import Schema
 from . import views
+from django.views.decorators.cache import cache_page
 
 # from polls.views import InputForm
 
 urlpatterns = [
+    path("send_email", cache_page(0)(views.EmailSendView.as_view()), name="send_email"),
     path("http/", views.request_object, name="request-object"),
     # path("not_found/", views.not_found, name="not-found"),
     path("redirect_view/", views.redirect_view, name="redirect-view"),
